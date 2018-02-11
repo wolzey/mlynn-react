@@ -1,20 +1,31 @@
 import React, { Component } from 'react'
 import Header from '../../components/Header'
+import BlogPreview from '../../components/BlogPreview'
 
 import { connect } from 'react-redux'
 
 import { getBlogPosts } from '../../redux/actions/blog'
 
 class Blog extends Component {
-  componentDidMount() {
+  componentWillMount() {
     this.props.getPosts()
   }
 
   render() {
-    console.log(this.props.posts)
+    let {posts} = this.props
     return (
       <div className="blog">
         <Header />
+        <div className="previews">
+          {posts.items && posts.items.map((post, index) => {
+            return <BlogPreview
+              key={index}
+              body={post.data.body}
+              image={post.data.post_image}
+              title={post.data.title}
+            />
+          })}
+        </div>
       </div>
     )
   }
@@ -31,14 +42,3 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Blog)
-
-/**
- * TODO: Add actions to get Blog Posts from Prismic
- * TODO: Add blog posts to state
- * TODO: Dispatch store to props
- * TODO: Add loader
- * TODO: Add invalidate function.
- * We don't need to constantly pull the blog posts and hit the api
- * we can totally cache the blog posts
- *
- */

@@ -1,8 +1,2 @@
 .blog_preview {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between; }
-  .blog_preview .blog_image {
-    width: auto; }
-  .blog_preview .blog_body {
-    width: auto; }
+  display: flex; }

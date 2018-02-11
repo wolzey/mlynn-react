@@ -1,4 +1,18 @@
 import React, { Component } from 'react'
+import PrismicReact from 'prismic-reactjs'
+
+const BLOG_POST = 'blog_post'
+
+const linkResolver = (doc) => {
+  switch(doc.type) {
+    case BLOG_POST:
+      return `/blog/${doc.uid}`
+      break;
+    default:
+      return '/'
+  }
+}
+
 
 export default class BlogPreview extends Component {
   constructor(props) {
@@ -16,18 +30,21 @@ export default class BlogPreview extends Component {
     return (
       <div className="blog_preview">
         <div className="blog_image">
-          <img src={image} />
+          <img src={image.url} />
+        </div>
+        <div className="title">
+          {PrismicReact.RichText.render(title, linkResolver)}
         </div>
         <div className="blog_body">
-          <p>{this._truncate(250)(body)}</p>
+          {PrismicReact.RichText.render(body, linkResolver)}
         </div>
       </div>
     )
   }
 }
 
-BlogPreview.propTypes = {
-  title: React.PropTypes.string.isRequired,
-  image: React.PropTypes.string.isRequired,
-  body: React.PropTypes.string.isRequired
-}
+// BlogPreview.propTypes = {
+//   title: React.PropTypes.string.isRequired,
+//   image: React.PropTypes.string.isRequired,
+//   body: React.PropTypes.string.isRequired
+// }
